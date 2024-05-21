@@ -4,6 +4,14 @@ scheduler package
 Submodules
 ----------
 
+scheduler.algorithms module
+---------------------------
+
+.. automodule:: scheduler.algorithms
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 scheduler.controllers module
 ----------------------------
 

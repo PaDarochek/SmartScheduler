@@ -1,4 +1,5 @@
-from typing import List
+from datetime import datetime
+from typing import List, Optional
 
 import yougile
 import yougile.models as models
@@ -15,8 +16,8 @@ class Board:
 
 
 class Deadline:
-    deadline: int
-    start_date: int
+    deadline: datetime
+    start_date: datetime
     with_time: bool
 
 
@@ -31,8 +32,8 @@ class Task:
     description: str
     archived: bool
     completed: bool
-    deadline: Deadline
-    time_tracking: TimeTracking
+    deadline: Optional[Deadline]
+    time_tracking: Optional[TimeTracking]
 
 
 class AppLogicModel:
@@ -131,7 +132,7 @@ class AppLogicModel:
         if status != 200:
             raise ValueError()
 
-        board = response.json()["content"]
+        board = response.json()
 
         model = models.ColumnController_search(
             token=self.token, boardId=board["id"]
@@ -156,11 +157,30 @@ class AppLogicModel:
                 task = Task()
                 task.id = obj["id"]
                 task.title = obj["title"]
-                task.archived = obj["archived"]
-                task.completed = obj["completed"]
-                task.deadline = obj["deadline"]
-                task.description = obj["description"]
-                task.time_tracking = obj["timeTracking"]
+                task.archived = obj["archived"] if "archived" in obj else False
+                task.completed = (
+                    obj["completed"] if "completed" in obj else False
+                )
+                task.deadline = None
+                if "deadline" in obj:
+                    deadline = Deadline()
+                    deadline.deadline = datetime.fromtimestamp(
+                        obj["deadline"]["deadline"]
+                    )
+                    deadline.start_date = datetime.fromtimestamp(
+                        obj["deadline"]["startDate"]
+                    )
+                    deadline.with_time = obj["deadline"]["withTime"]
+                    task.deadline = deadline
+                task.description = (
+                    obj["description"] if "description" in obj else ""
+                )
+                task.time_tracking = None
+                if "timeTracking" in obj:
+                    time_tracking = TimeTracking()
+                    time_tracking.plan = obj["timeTracking"]["plan"]
+                    time_tracking.work = obj["timeTracking"]["work"]
+                    task.time_tracking = time_tracking
                 tasks.append(task)
             board_tasks.append(tasks)
 
