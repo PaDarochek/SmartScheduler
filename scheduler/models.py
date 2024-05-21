@@ -33,6 +33,6 @@ class AppLogicModel:
             login=login, password=password, companyId=company_id
         )
         response = yougile.query(model)
-        if response.status_code != 200:
+        if response.status_code != 201:
             raise ValueError()
         self.token = response.json()["key"]
