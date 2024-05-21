@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 yougile-api = "*"
+dataclasses-json = "*"
 
 [dev-packages]
 

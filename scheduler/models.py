@@ -1,5 +1,22 @@
 import yougile
 import yougile.models as models
+from dataclasses import dataclass
+from dataclasses_json import dataclass_json
+from typing import List
+
+
+@dataclass_json
+@dataclass
+class Project:
+    id: str
+    title: str
+
+
+@dataclass_json
+@dataclass
+class Board:
+    id: str
+    title: str
 
 
 class AppLogicModel:
@@ -36,3 +53,33 @@ class AppLogicModel:
         if response.status_code != 201:
             raise ValueError()
         self.token = response.json()["key"]
+
+    def get_projects(self) -> List[Project]:
+        """Get project list
+
+        :raises ValueError:
+        :return: Project list
+        :rtype: List[Project]
+        """
+        model = models.ProjectController_search(token=self.token)
+        response = yougile.query(model)
+        status = response.status_code
+        if status != 200:
+            raise ValueError()
+
+        projects = Project.schema().dumps(
+            response.json()["content"], many=True
+        )
+        return projects
+
+    def get_boards_by_project(self, project: Project) -> List[Board]:
+        model = models.BoardController_search(
+            token=self.token, projectId=project.id
+        )
+        response = yougile.query(model)
+        status = response.status_code
+        if status != 200:
+            raise ValueError()
+
+        boards = Board.schema().dumps(response.json()["content"], many=True)
+        return boards
