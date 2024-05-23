@@ -19,6 +19,33 @@ class Board:
     title: str
 
 
+@dataclass_json
+@dataclass
+class Deadline:
+    deadline: int
+    start_date: int
+    with_time: bool
+
+
+@dataclass_json
+@dataclass
+class TimeTracking:
+    plan: int
+    work: int
+
+
+@dataclass_json
+@dataclass
+class Task:
+    id: str
+    title: str
+    description: str
+    archived: bool
+    completed: bool
+    deadline: Deadline
+    time_tracking: TimeTracking
+
+
 class AppLogicModel:
     def __init__(self):
         self.token = ""
@@ -73,6 +100,14 @@ class AppLogicModel:
         return projects
 
     def get_boards_by_project(self, project: Project) -> List[Board]:
+        """Get boards list by project
+
+        :param project: YouGile project
+        :type project: Project
+        :raises ValueError: Bad response
+        :return: Boards list
+        :rtype: List[Board]
+        """
         model = models.BoardController_search(
             token=self.token, projectId=project.id
         )
@@ -83,3 +118,42 @@ class AppLogicModel:
 
         boards = Board.schema().dumps(response.json()["content"], many=True)
         return boards
+
+    def get_tasks_by_board(self, board: Board) -> List[Task]:
+        """Get tasks list from all columns of board
+
+        :param board: YouGile board
+        :type board: Board
+        :raises ValueError: Bad response
+        :return: Tasks list
+        :rtype: List[Task]
+        """
+        model = models.BoardController_get(token=self.token, id=board.id)
+        response = yougile.query(model)
+        status = response.status_code
+        if status != 200:
+            raise ValueError()
+
+        board = Board.from_json(response.json()["content"])
+
+        model = models.ColumnController_search(
+            token=self.token, boardId=board.id
+        )
+        response = yougile.query(model)
+        status = response.status_code
+        if status != 200:
+            raise ValueError()
+
+        tasks = List()
+        for column in response.json()["content"]:
+            model = models.TaskController_search(
+                token=self.token, columnId=column["id"]
+            )
+            response = yougile.query(model)
+            status = response.status_code
+            if status != 200:
+                raise ValueError()
+            task = Task.schema().dumps(response.json()["content"], many=True)
+            tasks.append(task)
+
+        return tasks
