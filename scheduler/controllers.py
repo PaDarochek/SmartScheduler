@@ -19,7 +19,9 @@ class LoginController(views.ILoginController):
     def on_auth(self, view: views.LoginView):
         try:
             self.app.get_model().auth(
-                view.user.get(), view.password.get(), view.company.get()
+                view.user.get(),
+                view.password.get(),
+                view.company.get(),
             )
         except ValueError:
             view.handle_authorization_error()

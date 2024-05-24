@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 yougile-api = "*"
+black = "*"
+flake8 = "*"
 
 [dev-packages]
 
