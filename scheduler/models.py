@@ -1,41 +1,29 @@
 import yougile
 import yougile.models as models
-from dataclasses import dataclass
-from dataclasses_json import dataclass_json
 from typing import List
 
 
-@dataclass_json
-@dataclass
 class Project:
     id: str
     title: str
 
 
-@dataclass_json
-@dataclass
 class Board:
     id: str
     title: str
 
 
-@dataclass_json
-@dataclass
 class Deadline:
     deadline: int
     start_date: int
     with_time: bool
 
 
-@dataclass_json
-@dataclass
 class TimeTracking:
     plan: int
     work: int
 
 
-@dataclass_json
-@dataclass
 class Task:
     id: str
     title: str
@@ -94,9 +82,12 @@ class AppLogicModel:
         if status != 200:
             raise ValueError()
 
-        projects = Project.schema().dumps(
-            response.json()["content"], many=True
-        )
+        projects = list()
+        for obj in response.json()["content"]:
+            pr = Project()
+            pr.id = obj["id"]
+            pr.title = obj["title"]
+            projects.append(pr)
         return projects
 
     def get_boards_by_project(self, project: Project) -> List[Board]:
@@ -116,7 +107,12 @@ class AppLogicModel:
         if status != 200:
             raise ValueError()
 
-        boards = Board.schema().dumps(response.json()["content"], many=True)
+        boards = list()
+        for obj in response.json()["content"]:
+            bd = Board()
+            bd.id = obj["id"]
+            bd.title = obj["title"]
+            boards.append(bd)
         return boards
 
     def get_tasks_by_board(self, board: Board) -> List[Task]:
@@ -134,17 +130,17 @@ class AppLogicModel:
         if status != 200:
             raise ValueError()
 
-        board = Board.from_json(response.json()["content"])
+        board = response.json()["content"]
 
         model = models.ColumnController_search(
-            token=self.token, boardId=board.id
+            token=self.token, boardId=board["id"]
         )
         response = yougile.query(model)
         status = response.status_code
         if status != 200:
             raise ValueError()
 
-        tasks = List()
+        board_tasks = list()
         for column in response.json()["content"]:
             model = models.TaskController_search(
                 token=self.token, columnId=column["id"]
@@ -153,7 +149,18 @@ class AppLogicModel:
             status = response.status_code
             if status != 200:
                 raise ValueError()
-            task = Task.schema().dumps(response.json()["content"], many=True)
-            tasks.append(task)
 
-        return tasks
+            tasks = list()
+            for obj in response.json()["content"]:
+                task = Task()
+                task.id = obj["id"]
+                task.title = obj["title"]
+                task.archived = obj["archived"]
+                task.completed = obj["completed"]
+                task.deadline = obj["deadline"]
+                task.description = obj["description"]
+                task.time_tracking = obj["timeTracking"]
+                tasks.append(task)
+            board_tasks.append(tasks)
+
+        return board_tasks
