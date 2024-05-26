@@ -7,25 +7,32 @@ from scheduler.models import Task
 def relevant(task: Task, start_date: datetime, end_date: datetime) -> bool:
     result = not task.archived and not task.completed
     if task.deadline is not None:
-        result = result and task.deadline.deadline <= end_date
-    if task.time_tracking is not None:
-        result = result and task.deadline.start_date >= start_date
+        result = result and task.deadline.deadline > start_date
+        if task.deadline.start_date is not None:
+            result = result and task.deadline.start_date < end_date
     return result
 
 
 def get_relevant_tasks(
     tasks: List[Task], start_date: datetime, end_date: datetime
 ) -> List[Task]:
-    tasks = filter(lambda x: relevant(x, start_date, end_date), tasks)
+    tasks = list(filter(lambda x: relevant(x, start_date, end_date), tasks))
     return tasks
 
 
-def count_deadline_metric(task: Task, start_date: datetime) -> float:
+def count_deadline_metric(
+    task: Task, start_date: datetime, end_date: datetime
+) -> float:
     if task.deadline is None:
         return 0
-    delta_deadline = task.deadline.deadline - start_date
-    delta_start = task.deadline.start_date - start_date
-    return 1 / (delta_deadline**2 * delta_start)
+    delta_deadline = (task.deadline.deadline - start_date).total_seconds()
+    delta_start = (
+        (end_date - task.deadline.start_date).total_seconds()
+        / (end_date - start_date).total_seconds()
+        if task.deadline.start_date is not None
+        else 1
+    )
+    return delta_start / (delta_deadline**2)
 
 
 def count_time_tracking_metric(task: Task) -> float:
@@ -35,8 +42,10 @@ def count_time_tracking_metric(task: Task) -> float:
     return left / task.time_tracking.plan
 
 
-def count_priority_metric(task: Task, start_date: datetime) -> float:
-    m_deadline = count_deadline_metric(task, start_date)
+def count_priority_metric(
+    task: Task, start_date: datetime, end_date: datetime
+) -> float:
+    m_deadline = count_deadline_metric(task, start_date, end_date)
     m_time_tracking = count_time_tracking_metric(task)
     if m_deadline == 0:
         return m_time_tracking
@@ -45,5 +54,11 @@ def count_priority_metric(task: Task, start_date: datetime) -> float:
     return m_deadline * m_time_tracking
 
 
-def sort_tasks(tasks: List[Task]) -> List[Task]:
-    return sorted(tasks, count_priority_metric)
+def sort_tasks(
+    tasks: List[Task], start_date: datetime, end_date: datetime
+) -> List[Task]:
+    relevant_tasks = get_relevant_tasks(tasks, start_date, end_date)
+    return sorted(
+        relevant_tasks,
+        lambda x: count_priority_metric(x, start_date, end_date),
+    )
