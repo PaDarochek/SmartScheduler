@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List
 
-from scheduler.models import Task
+from scheduler.data_structures import Task
 
 
 def relevant(task: Task, start_date: datetime, end_date: datetime) -> bool:
@@ -60,5 +60,6 @@ def sort_tasks(
     relevant_tasks = get_relevant_tasks(tasks, start_date, end_date)
     return sorted(
         relevant_tasks,
-        lambda x: count_priority_metric(x, start_date, end_date),
+        key=lambda x: count_priority_metric(x, start_date, end_date),
+        reverse=True,
     )

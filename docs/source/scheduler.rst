@@ -20,6 +20,14 @@ scheduler.controllers module
    :undoc-members:
    :show-inheritance:
 
+scheduler.data\_structures module
+---------------------------------
+
+.. automodule:: scheduler.data_structures
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 scheduler.models module
 -----------------------
 

@@ -2,7 +2,7 @@ import datetime
 import time
 import unittest
 
-from scheduler import controllers, models
+from scheduler import controllers, data_structures
 from scheduler.algorithms import (
     count_deadline_metric,
     count_priority_metric,
@@ -17,7 +17,7 @@ class FindByTitleTests(unittest.TestCase):
         N_PROJECTS = 10
         projects = []
         for i in range(N_PROJECTS):
-            prj = models.Project()
+            prj = data_structures.Project()
             prj.id = str(i)
             prj.title = f"prj{i}"
             projects.append(prj)
@@ -32,7 +32,7 @@ class FindByTitleTests(unittest.TestCase):
         N_BOARDS = 10
         boards = []
         for i in range(N_BOARDS):
-            board = models.Board()
+            board = data_structures.Board()
             board.id = str(i)
             board.title = f"board{i}"
             boards.append(board)
@@ -44,7 +44,7 @@ class FindByTitleTests(unittest.TestCase):
             self.assertEqual(board.title, board_title)
 
     def test_projects_exception(self):
-        prj1 = models.Project()
+        prj1 = data_structures.Project()
         prj1.id = "1"
         prj1.title = "prj1"
         projects = [prj1, prj1]
@@ -62,7 +62,7 @@ class FindByTitleTests(unittest.TestCase):
         self.assertTrue(no_projects_detected)
 
     def test_boards_exception(self):
-        board1 = models.Board()
+        board1 = data_structures.Board()
         board1.id = "1"
         board1.title = "board1"
         boards = [board1, board1]

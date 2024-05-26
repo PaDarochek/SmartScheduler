@@ -4,41 +4,14 @@ from typing import List, Optional
 import yougile
 import yougile.models as models
 
-
-class Project:
-    id: str
-    title: str
-
-
-class Board:
-    id: str
-    title: str
-
-
-class Deadline:
-    deadline: datetime
-    start_date: datetime
-    with_time: bool
-
-
-class TimeTracking:
-    plan: int
-    work: int
-
-
-class Task:
-    id: str
-    title: str
-    description: str
-    archived: bool
-    completed: bool
-    deadline: Optional[Deadline]
-    time_tracking: Optional[TimeTracking]
+from scheduler.algorithms import sort_tasks
+from scheduler.data_structures import Board, Project, Task
 
 
 class AppLogicModel:
     def __init__(self):
         self.token = ""
+        self.chosen_board: Optional[Board] = None
 
     def auth(self, login: str, password: str, company_name: str):
         """Authorize to YouGile.
@@ -152,36 +125,6 @@ class AppLogicModel:
             if status != 200:
                 raise ValueError()
 
-            tasks = list()
-            for obj in response.json()["content"]:
-                task = Task()
-                task.id = obj["id"]
-                task.title = obj["title"]
-                task.archived = obj["archived"] if "archived" in obj else False
-                task.completed = (
-                    obj["completed"] if "completed" in obj else False
-                )
-                task.deadline = None
-                if "deadline" in obj:
-                    deadline = Deadline()
-                    deadline.deadline = datetime.fromtimestamp(
-                        obj["deadline"]["deadline"]
-                    )
-                    deadline.start_date = datetime.fromtimestamp(
-                        obj["deadline"]["startDate"]
-                    )
-                    deadline.with_time = obj["deadline"]["withTime"]
-                    task.deadline = deadline
-                task.description = (
-                    obj["description"] if "description" in obj else ""
-                )
-                task.time_tracking = None
-                if "timeTracking" in obj:
-                    time_tracking = TimeTracking()
-                    time_tracking.plan = obj["timeTracking"]["plan"]
-                    time_tracking.work = obj["timeTracking"]["work"]
-                    task.time_tracking = time_tracking
-                tasks.append(task)
-            board_tasks.append(tasks)
+            board_tasks += [Task(obj) for obj in response.json()["content"]]
 
         return board_tasks

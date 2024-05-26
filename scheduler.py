@@ -46,10 +46,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # model = models.AppLogicModel()
-    # model.auth(
-    #     login="s02230474@gse.cs.msu.ru",
-    #     password="12345678",
-    #     company_name="MSU",
-    # )
-    # print(model.get_projects())
