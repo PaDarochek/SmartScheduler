@@ -1,8 +1,9 @@
+from datetime import date, datetime, time
 from typing import List
 
 from customtkinter import CTk
 
-from scheduler import models, views
+from scheduler import data_structures, models, views
 
 
 class IApp(CTk):
@@ -46,12 +47,13 @@ class LoginController(views.ILoginController):
 
 
 def find_by_title(
-    entities: List[models.Project | models.Board], title: str
-) -> models.Project | None:
+    entities: List[data_structures.Project | data_structures.Board], title: str
+) -> data_structures.Project | None:
     """Get project with a name mathes the given one.
 
     :param entities: list of projects
-    :type entities: List[models.Project | models.Board]
+    :type entities: List[data_structures.Project |
+        data_structures.Board]
     :param title: searched project_name
     :type title: str
     :raises RuntimeError: raises when there are two projects with the
@@ -68,8 +70,8 @@ def find_by_title(
 class BoardController(views.IBoardController):
     def __init__(self, app: IApp):
         self.app = app
-        self.projects: List[models.Project] = []
-        self.boards: List[models.Board] = []
+        self.projects: List[data_structures.Project] = []
+        self.boards: List[data_structures.Board] = []
 
     def get_project_names(self) -> List[str]:
         self.projects = self.app.get_model().get_projects()
@@ -99,3 +101,43 @@ class BoardController(views.IBoardController):
             view.display_internal_error()
             return
         self.app.show_view("tasks")
+
+
+class TasksController(views.ITasksController):
+    def __init__(self, app: IApp):
+        self.app = app
+
+    def get_filtered_tasks(
+        self, view: views.TasksView, begin_date: date, end_date: date
+    ) -> List[str]:
+        begin_date = datetime.combine(
+            begin_date, time(hour=0, minute=0, second=0)
+        )
+        end_date = datetime.combine(
+            end_date, time(hour=23, minute=59, second=59)
+        )
+        try:
+            board = self.app.get_model().get_board()
+            filtered_tasks = self.app.get_model().get_tasks_by_board(
+                board, begin_date, end_date
+            )
+        except Exception as e:
+            print(e)
+            view.on_error()
+            return []
+        result_texts = []
+        for task in filtered_tasks:
+            text = f"{task.title.strip()}\n{task.description.strip()}\n"
+            if task.archived:
+                text += "Task is archived\n"
+            if task.completed:
+                text += "Completed\n"
+            if task.deadline is not None:
+                text += f"Deadline: {task.deadline.deadline}\n"
+                if task.deadline.start_date is not None:
+                    text += f"\tStart date: {task.deadline.start_date}\n"
+            if task.time_tracking is not None:
+                text += f"Planned time: {task.time_tracking.plan} hours\n"
+                text += f"Work time: {task.time_tracking.work} hours\n"
+            result_texts.append(text)
+        return result_texts

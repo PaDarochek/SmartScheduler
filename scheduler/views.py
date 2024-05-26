@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from typing import List
 
 import customtkinter as tk
@@ -160,7 +160,7 @@ class BoardView(tk.CTkFrame):
 
 class ITasksController:
     def get_filtered_tasks(
-        self, begin_date: datetime, end_date: datetime
+        self, view, begin_date: date, end_date: date
     ) -> List[str]:
         raise NotImplementedError()
 
@@ -213,7 +213,7 @@ class TasksView(tk.CTkFrame):
         PARAGRAPH_FONT = tk.CTkFont(size=16)
 
         new_task_texts = self.controller.get_filtered_tasks(
-            self.begin_date.get_date(), self.end_date.get_date()
+            self, self.begin_date.get_date(), self.end_date.get_date()
         )
         for task in self.tasks:
             task.pack_forget()
@@ -226,7 +226,21 @@ class TasksView(tk.CTkFrame):
                 text=text,
                 font=PARAGRAPH_FONT,
                 anchor="w",
+                justify="left",
                 bg_color="gray28",
             )
             self.tasks.append(task)
             task.pack(fill="x", padx=5, pady=5)
+
+    def on_error(self):
+        PARAGRAPH_FONT = tk.CTkFont(size=16)
+
+        self.tasks = [
+            tk.CTkLabel(
+                self.tasks_area,
+                text="Couldn't load tasks!",
+                font=PARAGRAPH_FONT,
+                text_color="red",
+            )
+        ]
+        self.tasks[0].pack()

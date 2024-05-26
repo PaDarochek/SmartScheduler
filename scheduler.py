@@ -22,7 +22,7 @@ class App(controllers.IApp):
         self.controllers["boards"] = controllers.BoardController(self)
 
         self.views["tasks"] = views.TasksView
-        self.controllers["tasks"] = None
+        self.controllers["tasks"] = controllers.TasksController(self)
 
         self.show_view("login")
 

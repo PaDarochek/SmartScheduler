@@ -90,7 +90,9 @@ class AppLogicModel:
             boards.append(bd)
         return boards
 
-    def get_tasks_by_board(self, board: Board) -> List[Task]:
+    def get_tasks_by_board(
+        self, board: Board, start_date: datetime, end_date: datetime
+    ) -> List[Task]:
         """Get tasks list from all columns of board.
 
         :param board: YouGile board
@@ -127,4 +129,14 @@ class AppLogicModel:
 
             board_tasks += [Task(obj) for obj in response.json()["content"]]
 
-        return board_tasks
+        sorted_tasks = sort_tasks(board_tasks, start_date, end_date)
+
+        return sorted_tasks
+
+    def save_board(self, board: Board):
+        self.chosen_board = board
+
+    def get_board(self) -> Board:
+        if self.chosen_board is None:
+            raise ValueError()
+        return self.chosen_board
