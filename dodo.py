@@ -1,6 +1,17 @@
-import glob
+"""Default: lint, test and create wheel"""
 
-DOIT_CONFIG = {"default_tasks": ["lint", "test"]}
+import glob
+import tomli
+
+DOIT_CONFIG = {"default_tasks": ["lint", "test", "wheel"]}
+
+
+def dumpkeys(infile, table, outfile):
+    """Dumps TOML table keys one per line"""
+    with open(infile, "rb") as fin:
+        full = tomli.load(fin)
+    with open(outfile, "w") as fout:
+        print(*full[table], sep="\n", file=fout)
 
 
 def task_lint():
@@ -43,7 +54,8 @@ def task_doc():
 
 def task_test():
     """Run unit tests."""
-    return {"actions": ["python3 -m unittest discover"]}
+    yield {"actions": ["coverage run -m unittest -v"], "name": "run"}
+    yield {"actions": ["coverage report"], "verbosity": 2, "name": "report"}
 
 
 def task_pot():
@@ -86,3 +98,28 @@ def task_mo():
 def task_git_clean():
     """Clean all generated files not tracked by GIT."""
     return {"actions": ["git clean -xdf"]}
+
+
+def task_requirements():
+    """Dump Pipfile requirements"""
+    return {
+        "actions": [(dumpkeys, ["Pipfile", "packages", "requirements.txt"])],
+        "file_dep": ["Pipfile"],
+        "targets": ["requirements.txt"],
+    }
+
+
+def task_sdist():
+    """Create source distribution."""
+    return {
+        "actions": ["python -m build -s -n"],
+        "task_dep": ["git_clean", "requirements"],
+    }
+
+
+def task_wheel():
+    """Create binary wheel distribution."""
+    return {
+        "actions": ["python -m build -w"],
+        "task_dep": ["mo", "requirements"],
+    }

@@ -19,6 +19,10 @@ doit = "*"
 docformatter = "*"
 sphinx = "*"
 pybabel = "*"
+build = "*"
+setuptools = "*"
+tomli = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.10"

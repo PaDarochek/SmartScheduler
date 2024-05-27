@@ -1,3 +1,27 @@
+[project]
+name = "SmartScheduler"
+description = "Ассистент по краткосрочному планированию задач на основе таск-трекера YouGile"
+version = "0.1"
+readme = "README.md"
+
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = "requirements.txt" }
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-dir]
+scheduler = "scheduler"
+
+[tool.setuptools.package-data]
+scheduler = ["scheduler/ru/*/*.mo"]
+
+[project.gui-scripts]
+Scheduler = "scheduler:main"
+
 [tool.black]
 line-length = 79
 target-version = ['py310']
