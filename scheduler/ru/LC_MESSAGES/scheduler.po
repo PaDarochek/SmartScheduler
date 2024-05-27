@@ -1,0 +1,109 @@
+# Russian translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-05-27 17:16+0300\n"
+"PO-Revision-Date: 2024-05-27 17:16+0300\n"
+"Last-Translator: Parygina Darya <s02230474@gse.cs.msu.ru>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: controllers.py:72
+msgid "No projects found or unexpected projects having the same names"
+msgstr "Проекты не найдены, или обнаружены проекты с одинаковыми названиями"
+
+#: controllers.py:142
+msgid "Task is archived\n"
+msgstr "Задача архивирована\n"
+
+#: controllers.py:144
+msgid "Completed\n"
+msgstr "Завершено\n"
+
+#: controllers.py:146
+msgid "Deadline: {}\n"
+msgstr "Дедлайн: {}\n"
+
+#: controllers.py:148
+msgid "\tStart date: {}\n"
+msgstr "\tДата начала выполнения: {}\n"
+
+#: controllers.py:152
+msgid "Planned time: {} hours\n"
+msgstr "Запланированное время: {} часов\n"
+
+#: controllers.py:155
+msgid "Work time: {} hours\n"
+msgstr "Время работы: {} часов\n"
+
+#: views.py:38
+msgid "Company"
+msgstr "Компания"
+
+#: views.py:46
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: views.py:53
+msgid "Password"
+msgstr "Пароль"
+
+#: views.py:62
+msgid "Login"
+msgstr "Войти"
+
+#: views.py:75
+msgid "Failed to authorize!"
+msgstr "Ошибка авторизации!"
+
+#: views.py:104
+msgid "Project"
+msgstr "Проект"
+
+#: views.py:117
+msgid "Board"
+msgstr "Доска"
+
+#: views.py:136
+msgid "Choose"
+msgstr "Выбрать"
+
+#: views.py:163
+msgid "Internal error!"
+msgstr "Внутренняя ошибка!"
+
+#: views.py:166
+msgid "Board is not chosen!"
+msgstr "Доска не выбрана!"
+
+#: views.py:186
+msgid "Tasks"
+msgstr "Задачи"
+
+#: views.py:194
+msgid "From"
+msgstr "От"
+
+#: views.py:202
+msgid "To"
+msgstr "До"
+
+#: views.py:215
+msgid "Get tasks"
+msgstr "Получить список задач"
+
+#: views.py:249
+msgid "Couldn't load tasks!"
+msgstr "Не удалось загрузить задачи!"
+

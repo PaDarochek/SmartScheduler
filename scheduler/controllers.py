@@ -1,9 +1,19 @@
 from datetime import date, datetime, time
 from typing import List
+import gettext
+import os
+import locale
 
 from customtkinter import CTk
 
 from scheduler import data_structures, models, views
+
+locale.setlocale(locale.LC_ALL, locale.getdefaultlocale())
+
+translation = gettext.translation(
+    "scheduler", os.path.dirname(__file__), fallback=True
+)
+_ = translation.gettext
 
 
 class IApp(CTk):
@@ -62,7 +72,7 @@ def find_by_title(
     found_projects = [ent for ent in entities if ent.title == title]
     if len(found_projects) != 1:
         raise RuntimeError(
-            "No projects found or unexpected projects having the same names"
+            _("No projects found or unexpected projects having the same names")
         )
     return found_projects[0]
 
@@ -132,15 +142,21 @@ class TasksController(views.ITasksController):
         for task in filtered_tasks:
             text = f"{task.title.strip()}\n{task.description.strip()}\n"
             if task.archived:
-                text += "Task is archived\n"
+                text += _("Task is archived\n")
             if task.completed:
-                text += "Completed\n"
+                text += _("Completed\n")
             if task.deadline is not None:
-                text += f"Deadline: {task.deadline.deadline}\n"
+                text += _("Deadline: {}\n").format(task.deadline.deadline)
                 if task.deadline.start_date is not None:
-                    text += f"\tStart date: {task.deadline.start_date}\n"
+                    text += _("\tStart date: {}\n").format(
+                        task.deadline.start_date
+                    )
             if task.time_tracking is not None:
-                text += f"Planned time: {task.time_tracking.plan} hours\n"
-                text += f"Work time: {task.time_tracking.work} hours\n"
+                text += _("Planned time: {} hours\n").format(
+                    task.time_tracking.plan
+                )
+                text += _("Work time: {} hours\n").format(
+                    task.time_tracking.work
+                )
             result_texts.append(text)
         return result_texts

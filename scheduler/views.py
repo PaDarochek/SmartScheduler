@@ -1,8 +1,16 @@
 from datetime import date
 from typing import List
 
+import gettext
+import os
+
 import customtkinter as tk
 from tkcalendar import DateEntry
+
+translation = gettext.translation(
+    "scheduler", os.path.dirname(__file__), fallback=True
+)
+_ = translation.gettext
 
 
 class ILoginController:
@@ -27,7 +35,7 @@ class LoginView(tk.CTkFrame):
         self.error = tk.StringVar()
 
         # GUI setup
-        tk.CTkLabel(self, text="Company", font=HEADER2_FONT).place(
+        tk.CTkLabel(self, text=_("Company"), font=HEADER2_FONT).place(
             rely=0.1, relwidth=1
         )
 
@@ -35,14 +43,14 @@ class LoginView(tk.CTkFrame):
             self, textvariable=self.company, font=PARAGRAPH_FONT
         ).place(rely=0.16, relx=0.25, relwidth=0.5)
 
-        tk.CTkLabel(self, text="Username", font=HEADER2_FONT).place(
+        tk.CTkLabel(self, text=_("Username"), font=HEADER2_FONT).place(
             rely=0.26, relwidth=1
         )
         tk.CTkEntry(self, textvariable=self.user, font=PARAGRAPH_FONT).place(
             rely=0.32, relx=0.25, relwidth=0.5
         )
 
-        tk.CTkLabel(self, text="Password", font=HEADER2_FONT).place(
+        tk.CTkLabel(self, text=_("Password"), font=HEADER2_FONT).place(
             rely=0.42, relwidth=1
         )
         tk.CTkEntry(
@@ -51,7 +59,7 @@ class LoginView(tk.CTkFrame):
 
         tk.CTkButton(
             self,
-            text="Login",
+            text=_("Login"),
             command=lambda: controller.on_auth(self),
             font=PARAGRAPH_FONT,
         ).place(rely=0.58, relx=0.3, relwidth=0.4)
@@ -64,7 +72,7 @@ class LoginView(tk.CTkFrame):
         ).place(rely=0.68, relwidth=1)
 
     def handle_authorization_error(self):
-        self.error.set("Failed to authorize!")
+        self.error.set(_("Failed to authorize!"))
 
 
 class IBoardController:
@@ -93,7 +101,7 @@ class BoardView(tk.CTkFrame):
         self.selected_board = None
 
         # GUI setup
-        tk.CTkLabel(self, text="Project", font=HEADER2_FONT).place(
+        tk.CTkLabel(self, text=_("Project"), font=HEADER2_FONT).place(
             rely=0.2, relwidth=1
         )
         self.projects_combo = tk.CTkComboBox(
@@ -106,7 +114,7 @@ class BoardView(tk.CTkFrame):
         self.projects_combo.set("")
         self.projects_combo.place(rely=0.26, relx=0.3, relwidth=0.4)
 
-        tk.CTkLabel(self, text="Board", font=HEADER2_FONT).place(
+        tk.CTkLabel(self, text=_("Board"), font=HEADER2_FONT).place(
             rely=0.36, relwidth=1
         )
         self.boards_combo = tk.CTkComboBox(
@@ -125,7 +133,7 @@ class BoardView(tk.CTkFrame):
 
         tk.CTkButton(
             self,
-            text="Choose",
+            text=_("Choose"),
             command=lambda: self.controller.on_choose_board(
                 self, self.selected_board
             ),
@@ -152,10 +160,10 @@ class BoardView(tk.CTkFrame):
         self.selected_board = choice
 
     def display_internal_error(self):
-        self.error.set("Internal error!")
+        self.error.set(_("Internal error!"))
 
     def display_no_board_chosen(self):
-        self.error.set("Board is not chosen!")
+        self.error.set(_("Board is not chosen!"))
 
 
 class ITasksController:
@@ -175,7 +183,7 @@ class TasksView(tk.CTkFrame):
         self.controller = controller
 
         # Setup GUI
-        tk.CTkLabel(self, text="Tasks", font=HEADER2_FONT).place(
+        tk.CTkLabel(self, text=_("Tasks"), font=HEADER2_FONT).place(
             rely=0.05, relwidth=1
         )
 
@@ -183,7 +191,7 @@ class TasksView(tk.CTkFrame):
         self.tasks_area.place(rely=0.15, relheight=0.55, relwidth=1)
         self.tasks: List[tk.CTkLabel] = []
 
-        tk.CTkLabel(self, text="From", font=PARAGRAPH_FONT).place(
+        tk.CTkLabel(self, text=_("From"), font=PARAGRAPH_FONT).place(
             rely=0.75, relx=0.2, relwidth=0.2
         )
         self.begin_date = DateEntry(
@@ -191,7 +199,7 @@ class TasksView(tk.CTkFrame):
         )
         self.begin_date.place(rely=0.8, relx=0.2, relheight=0.05, relwidth=0.2)
 
-        tk.CTkLabel(self, text="To", font=PARAGRAPH_FONT).place(
+        tk.CTkLabel(self, text=_("To"), font=PARAGRAPH_FONT).place(
             rely=0.75, relx=0.6, relwidth=0.2
         )
         self.end_date = DateEntry(
@@ -204,7 +212,7 @@ class TasksView(tk.CTkFrame):
 
         tk.CTkButton(
             self,
-            text="Get tasks",
+            text=_("Get tasks"),
             font=PARAGRAPH_FONT,
             command=lambda: self.on_get_tasks(),
         ).place(rely=0.9, relx=0.4, relwidth=0.2)
@@ -238,7 +246,7 @@ class TasksView(tk.CTkFrame):
         self.tasks = [
             tk.CTkLabel(
                 self.tasks_area,
-                text="Couldn't load tasks!",
+                text=_("Couldn't load tasks!"),
                 font=PARAGRAPH_FONT,
                 text_color="red",
             )

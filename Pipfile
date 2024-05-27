@@ -8,6 +8,7 @@ yougile-api = "*"
 customtkinter = "*"
 tkcalendar = "*"
 dataclasses = "*"
+pybabel = "*"
 
 [dev-packages]
 black = "*"
