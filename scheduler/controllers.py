@@ -1,8 +1,8 @@
+import gettext
+import locale
+import os
 from datetime import date, datetime, time
 from typing import List
-import gettext
-import os
-import locale
 
 from customtkinter import CTk
 

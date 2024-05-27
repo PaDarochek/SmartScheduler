@@ -68,9 +68,7 @@ class AppLogicModel:
 
         projects = list()
         for obj in response.json()["content"]:
-            pr = Project()
-            pr.id = obj["id"]
-            pr.title = obj["title"]
+            pr = Project(obj["id"], obj["title"])
             projects.append(pr)
         return projects
 
@@ -93,9 +91,7 @@ class AppLogicModel:
 
         boards = list()
         for obj in response.json()["content"]:
-            bd = Board()
-            bd.id = obj["id"]
-            bd.title = obj["title"]
+            bd = Board(obj["id"], obj["title"])
             boards.append(bd)
         return boards
 
