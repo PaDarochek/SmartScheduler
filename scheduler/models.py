@@ -45,13 +45,22 @@ class AppLogicModel:
             raise ValueError()
         company_id = companies[0]["id"]
 
-        model = models.AuthKeyController_create(
+        model = models.AuthKeyController_search(
             login=login, password=password, companyId=company_id
         )
         response = yougile.query(model)
-        if response.status_code != 201:
+        if response.status_code != 200:
             raise ValueError()
-        self.token = response.json()["key"]
+        if len(response.json()) != 0:
+            self.token = response.json()[0]["key"]
+        else:
+            model = models.AuthKeyController_create(
+                login=login, password=password, companyId=company_id
+            )
+            response = yougile.query(model)
+            if response.status_code != 201:
+                raise ValueError()
+            self.token = response.json()["key"]
 
     def get_projects(self) -> List[Project]:
         """Get project list in user company.

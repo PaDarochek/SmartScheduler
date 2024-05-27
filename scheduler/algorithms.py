@@ -72,6 +72,8 @@ def count_deadline_metric(
         if task.deadline.start_date is not None
         else 1
     )
+    if delta_start > 1:
+        delta_start = 1
     return delta_start / (delta_deadline**2)
 
 

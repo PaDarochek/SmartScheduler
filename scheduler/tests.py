@@ -464,7 +464,7 @@ class DeadlineMetricTests(unittest.TestCase):
             datetime.datetime.strptime("03/05/2024 18:00", "%d/%m/%Y %H:%M"),
             datetime.datetime.strptime("06/05/2024 18:00", "%d/%m/%Y %H:%M"),
         )
-        self.assertTrue(abs(dl_metric - 4.47e-11) < 1e-11)
+        self.assertTrue(abs(dl_metric - 3.35e-11) < 1e-11)
 
     def test_default(self):
         task = Task(

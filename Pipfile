@@ -8,6 +8,8 @@ yougile-api = "*"
 customtkinter = "*"
 tkcalendar = "*"
 dataclasses = "*"
+bs4 = "*"
+markdown = "*"
 
 [dev-packages]
 black = "*"

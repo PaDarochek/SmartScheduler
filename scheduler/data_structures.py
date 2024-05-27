@@ -4,6 +4,9 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
+from bs4 import BeautifulSoup
+from markdown import markdown
+
 
 @dataclass
 class Project:
@@ -93,7 +96,12 @@ class Task:
                 else None
             )
             self.deadline = deadline
-        self.description = obj["description"] if "description" in obj else ""
+        self.description = ""
+        if "description" in obj:
+            html = markdown(obj["description"])
+            self.description = "".join(
+                BeautifulSoup(html, features="html.parser").findAll(text=True)
+            )
         self.time_tracking = None
         if "timeTracking" in obj:
             time_tracking = TimeTracking(
