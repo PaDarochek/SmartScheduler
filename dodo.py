@@ -1,3 +1,5 @@
+import glob
+
 DOIT_CONFIG = {"default_tasks": ["lint", "test"]}
 
 
@@ -42,3 +44,45 @@ def task_doc():
 def task_test():
     """Run unit tests."""
     return {"actions": ["python3 -m unittest discover"]}
+
+
+def task_pot():
+    """Re-create .pot ."""
+    return {
+        "actions": ["pybabel extract -o scheduler/Scheduler.pot scheduler"],
+        "file_dep": glob.glob("scheduler/*.py"),
+        "targets": ["scheduler/Scheduler.pot"],
+    }
+
+
+def task_po():
+    """Update translations."""
+    return {
+        "actions": [
+            (
+                "pybabel update -D Scheduler -d scheduler -i "
+                "scheduler/Scheduler.pot -l ru"
+            )
+        ],
+        "file_dep": ["scheduler/Scheduler.pot"],
+        "targets": ["scheduler/ru/LC_MESSAGES/Scheduler.po"],
+    }
+
+
+def task_mo():
+    """Compile translations."""
+    return {
+        "actions": [
+            (
+                "pybabel compile -D Scheduler -l ru "
+                "-i scheduler/ru/LC_MESSAGES/Scheduler.po -d scheduler"
+            ),
+        ],
+        "file_dep": ["scheduler/ru/LC_MESSAGES/Scheduler.po"],
+        "targets": ["scheduler/ru/LC_MESSAGES/Scheduler.mo"],
+    }
+
+
+def task_git_clean():
+    """Clean all generated files not tracked by GIT."""
+    return {"actions": ["git clean -xdf"]}

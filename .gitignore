@@ -163,3 +163,5 @@ cython_debug/
 .vscode/
 .doit.db
 *.mo
+.egg-info
+*.pot

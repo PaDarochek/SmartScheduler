@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-27 17:16+0300\n"
-"PO-Revision-Date: 2024-05-27 17:16+0300\n"
+"POT-Creation-Date: 2024-05-28 00:09+0300\n"
+"PO-Revision-Date: 2024-05-27 23:54+0300\n"
 "Last-Translator: Parygina Darya <s02230474@gse.cs.msu.ru>\n"
 "Language: ru\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -19,91 +19,91 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
 
-#: controllers.py:72
+#: scheduler/controllers.py:75
 msgid "No projects found or unexpected projects having the same names"
 msgstr "Проекты не найдены, или обнаружены проекты с одинаковыми названиями"
 
-#: controllers.py:142
+#: scheduler/controllers.py:145
 msgid "Task is archived\n"
 msgstr "Задача архивирована\n"
 
-#: controllers.py:144
+#: scheduler/controllers.py:147
 msgid "Completed\n"
 msgstr "Завершено\n"
 
-#: controllers.py:146
+#: scheduler/controllers.py:149
 msgid "Deadline: {}\n"
 msgstr "Дедлайн: {}\n"
 
-#: controllers.py:148
+#: scheduler/controllers.py:151
 msgid "\tStart date: {}\n"
 msgstr "\tДата начала выполнения: {}\n"
 
-#: controllers.py:152
+#: scheduler/controllers.py:155
 msgid "Planned time: {} hours\n"
 msgstr "Запланированное время: {} часов\n"
 
-#: controllers.py:155
+#: scheduler/controllers.py:158
 msgid "Work time: {} hours\n"
 msgstr "Время работы: {} часов\n"
 
-#: views.py:38
+#: scheduler/views.py:37
 msgid "Company"
 msgstr "Компания"
 
-#: views.py:46
+#: scheduler/views.py:45
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: views.py:53
+#: scheduler/views.py:52
 msgid "Password"
 msgstr "Пароль"
 
-#: views.py:62
+#: scheduler/views.py:61
 msgid "Login"
 msgstr "Войти"
 
-#: views.py:75
+#: scheduler/views.py:74
 msgid "Failed to authorize!"
 msgstr "Ошибка авторизации!"
 
-#: views.py:104
+#: scheduler/views.py:103
 msgid "Project"
 msgstr "Проект"
 
-#: views.py:117
+#: scheduler/views.py:116
 msgid "Board"
 msgstr "Доска"
 
-#: views.py:136
+#: scheduler/views.py:135
 msgid "Choose"
 msgstr "Выбрать"
 
-#: views.py:163
+#: scheduler/views.py:162
 msgid "Internal error!"
 msgstr "Внутренняя ошибка!"
 
-#: views.py:166
+#: scheduler/views.py:165
 msgid "Board is not chosen!"
 msgstr "Доска не выбрана!"
 
-#: views.py:186
+#: scheduler/views.py:185
 msgid "Tasks"
 msgstr "Задачи"
 
-#: views.py:194
+#: scheduler/views.py:193
 msgid "From"
 msgstr "От"
 
-#: views.py:202
+#: scheduler/views.py:201
 msgid "To"
 msgstr "До"
 
-#: views.py:215
+#: scheduler/views.py:214
 msgid "Get tasks"
 msgstr "Получить список задач"
 
-#: views.py:249
+#: scheduler/views.py:248
 msgid "Couldn't load tasks!"
 msgstr "Не удалось загрузить задачи!"
 
