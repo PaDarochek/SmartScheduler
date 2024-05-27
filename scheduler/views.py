@@ -7,7 +7,7 @@ import customtkinter as tk
 from tkcalendar import DateEntry
 
 translation = gettext.translation(
-    "scheduler", os.path.dirname(__file__), fallback=True
+    "Scheduler", os.path.join(os.path.dirname(__file__), "po"), fallback=True
 )
 _ = translation.gettext
 
@@ -301,7 +301,7 @@ class TasksView(tk.CTkFrame):
             text=_("Get tasks"),
             font=PARAGRAPH_FONT,
             command=lambda: self.on_get_tasks(),
-        ).place(rely=0.9, relx=0.4, relwidth=0.4)
+        ).place(rely=0.9, relx=0.2, relwidth=0.6)
 
     def on_get_tasks(self):
         """Event happening on button pressed."""

@@ -1,13 +1,15 @@
 """Default: lint, test and create wheel"""
 
 import glob
+
 import tomli
+from doit.tools import create_folder
 
 DOIT_CONFIG = {"default_tasks": ["lint", "test", "wheel"]}
 
 
 def dumpkeys(infile, table, outfile):
-    """Dumps TOML table keys one per line"""
+    """Dumps TOML table keys one per line."""
     with open(infile, "rb") as fin:
         full = tomli.load(fin)
     with open(outfile, "w") as fout:
@@ -61,9 +63,9 @@ def task_test():
 def task_pot():
     """Re-create .pot ."""
     return {
-        "actions": ["pybabel extract -o scheduler/Scheduler.pot scheduler"],
+        "actions": ["pybabel extract -o Scheduler.pot scheduler"],
         "file_dep": glob.glob("scheduler/*.py"),
-        "targets": ["scheduler/Scheduler.pot"],
+        "targets": ["Scheduler.pot"],
     }
 
 
@@ -72,12 +74,12 @@ def task_po():
     return {
         "actions": [
             (
-                "pybabel update -D Scheduler -d scheduler -i "
-                "scheduler/Scheduler.pot -l ru"
+                "pybabel update --ignore-pot-creation-date "
+                "-D Scheduler -d po -i Scheduler.pot -l ru"
             )
         ],
-        "file_dep": ["scheduler/Scheduler.pot"],
-        "targets": ["scheduler/ru/LC_MESSAGES/Scheduler.po"],
+        "file_dep": ["Scheduler.pot"],
+        "targets": ["po/ru/LC_MESSAGES/Scheduler.po"],
     }
 
 
@@ -85,13 +87,12 @@ def task_mo():
     """Compile translations."""
     return {
         "actions": [
-            (
-                "pybabel compile -D Scheduler -l ru "
-                "-i scheduler/ru/LC_MESSAGES/Scheduler.po -d scheduler"
-            ),
+            (create_folder, ["scheduler/po/ru/LC_MESSAGES"]),
+            "pybabel compile -D Scheduler -l ru "
+            + "-i po/ru/LC_MESSAGES/Scheduler.po -d scheduler/po",
         ],
-        "file_dep": ["scheduler/ru/LC_MESSAGES/Scheduler.po"],
-        "targets": ["scheduler/ru/LC_MESSAGES/Scheduler.mo"],
+        "file_dep": ["po/ru/LC_MESSAGES/Scheduler.po"],
+        "targets": ["scheduler/po/ru/LC_MESSAGES/Scheduler.mo"],
     }
 
 
@@ -101,7 +102,7 @@ def task_git_clean():
 
 
 def task_requirements():
-    """Dump Pipfile requirements"""
+    """Dump Pipfile requirements."""
     return {
         "actions": [(dumpkeys, ["Pipfile", "packages", "requirements.txt"])],
         "file_dep": ["Pipfile"],

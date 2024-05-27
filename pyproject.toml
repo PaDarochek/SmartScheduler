@@ -17,7 +17,7 @@ build-backend = "setuptools.build_meta"
 scheduler = "scheduler"
 
 [tool.setuptools.package-data]
-scheduler = ["scheduler/ru/*/*.mo"]
+scheduler = ["po/ru/*/*.mo"]
 
 [project.gui-scripts]
 Scheduler = "scheduler:main"

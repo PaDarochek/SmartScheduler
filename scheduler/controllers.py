@@ -11,7 +11,7 @@ from scheduler import data_structures, models, views
 locale.setlocale(locale.LC_ALL, locale.getdefaultlocale())
 
 translation = gettext.translation(
-    "scheduler", os.path.dirname(__file__), fallback=True
+    "Scheduler", os.path.join(os.path.dirname(__file__), "po"), fallback=True
 )
 _ = translation.gettext
 
