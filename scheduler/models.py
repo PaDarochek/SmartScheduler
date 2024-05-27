@@ -1,3 +1,5 @@
+"""Models for communication with YouGile API and invoking algorithms."""
+
 from datetime import datetime
 from typing import List, Optional
 
@@ -9,12 +11,19 @@ from scheduler.data_structures import Board, Project, Task
 
 
 class AppLogicModel:
+    """Logic for communication with YouGile and invoking algorithms.
+
+    :param token: Token for YouGile authorization
+    :param chosen_board: Board user project to sort tasks from
+    """
+
     def __init__(self):
+        """Create AppLogicModel instance with empty fields."""
         self.token = ""
         self.chosen_board: Optional[Board] = None
 
     def auth(self, login: str, password: str, company_name: str):
-        """Authorize to YouGile.
+        """Authorize to YouGile and save token.
 
         :param login: User login
         :type login: str
@@ -45,7 +54,7 @@ class AppLogicModel:
         self.token = response.json()["key"]
 
     def get_projects(self) -> List[Project]:
-        """Get project list.
+        """Get project list in user company.
 
         :raises ValueError:
         :return: Project list
@@ -66,7 +75,7 @@ class AppLogicModel:
         return projects
 
     def get_boards_by_project(self, project: Project) -> List[Board]:
-        """Get boards list by project.
+        """Get boards list by specified project.
 
         :param project: YouGile project
         :type project: Project
@@ -93,7 +102,7 @@ class AppLogicModel:
     def get_tasks_by_board(
         self, board: Board, start_date: datetime, end_date: datetime
     ) -> List[Task]:
-        """Get tasks list from all columns of board.
+        """Get tasks list from all columns of specified board.
 
         :param board: YouGile board
         :type board: Board
@@ -134,9 +143,20 @@ class AppLogicModel:
         return sorted_tasks
 
     def save_board(self, board: Board):
+        """Save board chosen by the user.
+
+        :param board: Chosen board
+        :type board: Board
+        """
         self.chosen_board = board
 
     def get_board(self) -> Board:
+        """Get board chosen by the user.
+
+        :raises ValueError: Board was not chosen yet
+        :return: Board chosen by the user
+        :rtype: Board
+        """
         if self.chosen_board is None:
             raise ValueError()
         return self.chosen_board

@@ -17,9 +17,7 @@ class FindByTitleTests(unittest.TestCase):
         N_PROJECTS = 10
         projects = []
         for i in range(N_PROJECTS):
-            prj = data_structures.Project()
-            prj.id = str(i)
-            prj.title = f"prj{i}"
+            prj = data_structures.Project(str(i), f"prj{i}")
             projects.append(prj)
 
         for i in range(N_PROJECTS):
@@ -32,9 +30,7 @@ class FindByTitleTests(unittest.TestCase):
         N_BOARDS = 10
         boards = []
         for i in range(N_BOARDS):
-            board = data_structures.Board()
-            board.id = str(i)
-            board.title = f"board{i}"
+            board = data_structures.Board(str(i), f"board{i}")
             boards.append(board)
 
         for i in range(N_BOARDS):
@@ -44,9 +40,7 @@ class FindByTitleTests(unittest.TestCase):
             self.assertEqual(board.title, board_title)
 
     def test_projects_exception(self):
-        prj1 = data_structures.Project()
-        prj1.id = "1"
-        prj1.title = "prj1"
+        prj1 = data_structures.Project("1", "prj1")
         projects = [prj1, prj1]
         multiple_projects_detected = False
         try:
@@ -62,9 +56,7 @@ class FindByTitleTests(unittest.TestCase):
         self.assertTrue(no_projects_detected)
 
     def test_boards_exception(self):
-        board1 = data_structures.Board()
-        board1.id = "1"
-        board1.title = "board1"
+        board1 = data_structures.Board("1", "board1")
         boards = [board1, board1]
         multiple_boards_detected = False
         try:
