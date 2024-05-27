@@ -116,6 +116,9 @@ class TasksController(views.ITasksController):
         end_date = datetime.combine(
             end_date, time(hour=23, minute=59, second=59)
         )
+        if begin_date > end_date:
+            view.on_error()
+            return []
         try:
             board = self.app.get_model().get_board()
             filtered_tasks = self.app.get_model().get_tasks_by_board(
