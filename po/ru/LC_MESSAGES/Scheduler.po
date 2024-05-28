@@ -19,91 +19,91 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
 
-#: scheduler/controllers.py:93
+#: scheduler/controllers.py:95
 msgid "No projects found or unexpected projects having the same names"
 msgstr "Проекты не найдены, или обнаружены проекты с одинаковыми названиями"
 
-#: scheduler/controllers.py:211
+#: scheduler/controllers.py:213
 msgid "Task is archived\n"
 msgstr "Задача архивирована\n"
 
-#: scheduler/controllers.py:213
+#: scheduler/controllers.py:215
 msgid "Completed\n"
 msgstr "Завершено\n"
 
-#: scheduler/controllers.py:216
+#: scheduler/controllers.py:218
 msgid "\tStart date: {}\n"
 msgstr "\tДата начала выполнения: {}\n"
 
-#: scheduler/controllers.py:219
+#: scheduler/controllers.py:221
 msgid "\tDeadline: {}\n"
 msgstr "\tДедлайн: {}\n"
 
-#: scheduler/controllers.py:223
+#: scheduler/controllers.py:225
 msgid "Planned time: {} hours\n"
 msgstr "Запланированное время: {} часов\n"
 
-#: scheduler/controllers.py:226
+#: scheduler/controllers.py:228
 msgid "Work time: {} hours\n"
 msgstr "Время работы: {} часов\n"
 
-#: scheduler/views.py:47
+#: scheduler/views.py:50
 msgid "Company"
 msgstr "Компания"
 
-#: scheduler/views.py:55
+#: scheduler/views.py:58
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: scheduler/views.py:62
+#: scheduler/views.py:65
 msgid "Password"
 msgstr "Пароль"
 
-#: scheduler/views.py:71
+#: scheduler/views.py:74
 msgid "Login"
 msgstr "Войти"
 
-#: scheduler/views.py:85
+#: scheduler/views.py:88
 msgid "Failed to authorize!"
 msgstr "Ошибка авторизации!"
 
-#: scheduler/views.py:148
+#: scheduler/views.py:151
 msgid "Project"
 msgstr "Проект"
 
-#: scheduler/views.py:161
+#: scheduler/views.py:164
 msgid "Board"
 msgstr "Доска"
 
-#: scheduler/views.py:180
+#: scheduler/views.py:183
 msgid "Choose"
 msgstr "Выбрать"
 
-#: scheduler/views.py:213
+#: scheduler/views.py:216
 msgid "Internal error!"
 msgstr "Внутренняя ошибка!"
 
-#: scheduler/views.py:217
+#: scheduler/views.py:220
 msgid "Board is not chosen!"
 msgstr "Доска не выбрана!"
 
-#: scheduler/views.py:272
+#: scheduler/views.py:275
 msgid "Tasks"
 msgstr "Задачи"
 
-#: scheduler/views.py:280
+#: scheduler/views.py:283
 msgid "From"
 msgstr "От"
 
-#: scheduler/views.py:288
+#: scheduler/views.py:294
 msgid "To"
 msgstr "До"
 
-#: scheduler/views.py:301
+#: scheduler/views.py:307
 msgid "Get tasks"
 msgstr "Получить список задач"
 
-#: scheduler/views.py:337
+#: scheduler/views.py:343
 msgid "Couldn't load tasks!"
 msgstr "Не удалось загрузить задачи!"
 
