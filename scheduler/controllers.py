@@ -206,17 +206,19 @@ class TasksController(views.ITasksController):
             return []
         result_texts = []
         for task in filtered_tasks:
-            text = f"{task.title.strip()}\n{task.description.strip()}\n"
+            text = f"{task.title.strip()}\n\n{task.description.strip()}\n"
             if task.archived:
                 text += _("Task is archived\n")
             if task.completed:
                 text += _("Completed\n")
             if task.deadline is not None:
-                text += _("Deadline: {}\n").format(task.deadline.deadline)
                 if task.deadline.start_date is not None:
                     text += _("\tStart date: {}\n").format(
-                        task.deadline.start_date
+                        task.deadline.start_date.strftime("%d/%m/%Y %H:%M")
                     )
+                text += _("\tDeadline: {}\n").format(
+                    task.deadline.deadline.strftime("%d/%m/%Y %H:%M")
+                )
             if task.time_tracking is not None:
                 text += _("Planned time: {} hours\n").format(
                     task.time_tracking.plan

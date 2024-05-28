@@ -31,19 +31,19 @@ msgstr "Задача архивирована\n"
 msgid "Completed\n"
 msgstr "Завершено\n"
 
-#: scheduler/controllers.py:215
-msgid "Deadline: {}\n"
-msgstr "Дедлайн: {}\n"
-
-#: scheduler/controllers.py:217
+#: scheduler/controllers.py:216
 msgid "\tStart date: {}\n"
 msgstr "\tДата начала выполнения: {}\n"
 
-#: scheduler/controllers.py:221
+#: scheduler/controllers.py:219
+msgid "\tDeadline: {}\n"
+msgstr "\tДедлайн: {}\n"
+
+#: scheduler/controllers.py:223
 msgid "Planned time: {} hours\n"
 msgstr "Запланированное время: {} часов\n"
 
-#: scheduler/controllers.py:224
+#: scheduler/controllers.py:226
 msgid "Work time: {} hours\n"
 msgstr "Время работы: {} часов\n"
 
