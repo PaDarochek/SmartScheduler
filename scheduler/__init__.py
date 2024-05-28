@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Launcher."""
 import locale
 
 from customtkinter import CTkFrame, set_appearance_mode
@@ -9,6 +10,11 @@ locale.setlocale(locale.LC_ALL, locale.getdefaultlocale())
 
 
 class App(controllers.IApp):
+    """App.
+
+    :param controllers: App controllers
+    """
+
     def __init__(self):
         super().__init__()
         self.title("Smart Scheduler")
@@ -32,9 +38,19 @@ class App(controllers.IApp):
         self.show_view("login")
 
     def get_model(self) -> models.AppLogicModel:
+        """Get app logic model.
+
+        :return: App logic model
+        :rtype: models.AppLogicModel
+        """
         return self.model
 
     def show_view(self, id: str):
+        """Show view by ID.
+
+        :param id: View ID
+        :type id: str
+        """
         view_cls = self.views[id]
         controller = self.controllers[id]
         if self.frame:
@@ -45,5 +61,6 @@ class App(controllers.IApp):
 
 
 def main():
+    """Launch app."""
     app = App()
     app.mainloop()

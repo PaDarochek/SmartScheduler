@@ -1,4 +1,7 @@
+"""App views."""
+
 import gettext
+import locale
 import os
 from datetime import date
 from typing import List
@@ -281,7 +284,10 @@ class TasksView(tk.CTkFrame):
             rely=0.75, relx=0.2, relwidth=0.2
         )
         self.begin_date = DateEntry(
-            self, selectmode="day", locale="en_US", font=PARAGRAPH_FONT
+            self,
+            selectmode="day",
+            locale=locale.getlocale()[0],
+            font=PARAGRAPH_FONT,
         )
         self.begin_date.place(rely=0.8, relx=0.2, relheight=0.05, relwidth=0.2)
 
@@ -291,7 +297,7 @@ class TasksView(tk.CTkFrame):
         self.end_date = DateEntry(
             self,
             selectmode="day",
-            locale="en_US",
+            locale=locale.getlocale()[0],
             font=PARAGRAPH_FONT,
         )
         self.end_date.place(rely=0.8, relx=0.6, relheight=0.05, relwidth=0.2)

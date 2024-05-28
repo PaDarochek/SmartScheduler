@@ -1,3 +1,5 @@
+"""App controllers."""
+
 import gettext
 import locale
 import os
