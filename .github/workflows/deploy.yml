@@ -27,4 +27,8 @@ jobs:
 
     - name: Deploy
       run: |
-        echo "Deploy placeholder"
+        pipenv run doit
+    - uses: actions/upload-artifact@v4
+      with:
+        name: build-${{ github.sha }}
+        path: dist/*.whl
